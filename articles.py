@@ -2,6 +2,9 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import json
 import re
+import os
+
+sitemap_url = 'https://www.autozone.com/diy/category-sitemap'
 
 def extract_fa_questions(page_content):
    faq_section = page_content.select('div.schema-faq-section')
@@ -19,10 +22,48 @@ def remove_section(page_content, css_selector):
    if section:
       section.decompose()
 
+def extract_sitemap(data_dir):
+    sitemap_filepath = f'{data_dir}/sitemap.json'
 
-if __name__ == "__main__":
-   file = open('./data/sitemap.json')
-   sitemap = json.load(file)
+    if (os.path.exists(sitemap_filepath)):
+      return json.load(open(sitemap_filepath))
+
+    driver = webdriver.Safari()
+    driver.get(sitemap_url)
+
+    category_sitemap_page = BeautifulSoup(driver.page_source, features='lxml')
+    category_links = category_sitemap_page.select('.az-category-pod')
+    sitemap = []
+
+    for link in category_links:
+        href = link['href']
+        title = link.select_one('.az-category-pod__title').text
+        sitemap.append(dict(href=href, title=title, articles=[]))
+
+    for item in sitemap:
+        driver.get(item['href'])
+
+        category_page = BeautifulSoup(driver.page_source, features='lxml')
+
+        article_links = category_page.select('a.az-blog-pod')
+
+        for link in article_links:
+            href = link['href']
+            title = link.select_one('.az-blog-pod__title').text
+            description = link.select_one('.az-blog-pod__description').text
+            item['articles'].append(dict(href=href, title=title, description=description))
+
+    with open(sitemap_filepath, 'a') as fp:
+        json.dump(sitemap, fp) 
+    return sitemap
+
+def extract_articles(data_dir):
+   articles_filepath = f'{data_dir}/articles.json'
+
+   if (os.path.exists(articles_filepath)):
+      return json.load(open(articles_filepath))
+
+   sitemap = extract_sitemap(data_dir)
    driver = webdriver.Safari()
    articles = []
 
@@ -56,8 +97,7 @@ if __name__ == "__main__":
          except Exception as error:
             print(f'Failed to extract {href}', error)
 
-   with open('./data/articles.json', 'a') as fp:
+   with open(articles_filepath, 'a') as fp:
       json.dump(articles, fp) 
 
    driver.close()
-

@@ -1,0 +1,6 @@
+__pycache__/
+.lightning_studio/
+.vscode/
+txtinstruct/
+bonito/
+nltk_data/*
