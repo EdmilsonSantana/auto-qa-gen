@@ -4,3 +4,5 @@ __pycache__/
 txtinstruct/
 bonito/
 nltk_data/*
+.env
+venv/*
