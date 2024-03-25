@@ -8,6 +8,8 @@
 
 - https://github.com/zhilizju/Awesome-instruction-tuning?tab=readme-ov-file
 
+- https://huggingface.co/pucpr/gpt2-bio-pt
+
 - Transmissão: https://omecanico.com.br/temas/transmissao/
 - Undercar: https://omecanico.com.br/temas/undercar/
 - Suspensão: 
@@ -15,3 +17,5 @@
 - Mecanica Diesel: https://omecanico.com.br/temas/mecanica-diesel/
 - Injeção e Ignição: https://omecanico.com.br/temas/injecao-e-ignicao/
 - https://omecanico.com.br/wp-json/wp/v2/categories/4670
+
+
