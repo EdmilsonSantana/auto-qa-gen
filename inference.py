@@ -3,7 +3,7 @@ from modal import Image, Secret, Stub, enter, exit, gpu, method
 import json
 
 MODEL_DIR = "/model"
-BASE_MODEL = "Qwen/Qwen1.5-7B-Chat"
+BASE_MODEL = "internlm/internlm2-chat-7b"
 
 def download_model_to_folder():
     from huggingface_hub import snapshot_download
@@ -28,7 +28,8 @@ image = (
         "huggingface_hub==0.19.4",
         "hf-transfer==0.1.4",
         "torch==2.1.2",
-        "accelerate"
+        "accelerate",
+        "einops"
     )
     # Use the barebones hf-transfer package for maximum download speeds. Varies from 100MB/s to 1.5 GB/s,
     # so download times can vary from under a minute to tens of minutes.
@@ -49,6 +50,7 @@ class Model:
     @enter()
     def load(self):
         from transformers import AutoModelForCausalLM, AutoTokenizer
+        import torch
 
         if GPU_CONFIG.count > 1:
             # Patch issue from https://github.com/vllm-project/vllm/issues/1116
@@ -56,45 +58,22 @@ class Model:
 
             ray.shutdown()
             ray.init(num_gpus=GPU_CONFIG.count)
-
-        self.template = (
-            "start_of_turn>user\n{user}<end_of_turn>\n<start_of_turn>model"
-        )
     
         self.model = AutoModelForCausalLM.from_pretrained(
             MODEL_DIR,
-            torch_dtype="auto",
-            device_map="auto"
-        )
-        self.tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
+            torch_dtype=torch.float16,
+            trust_remote_code=True
+        ).cuda()
+        self.model = self.model.eval()
+        self.tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR, trust_remote_code=True)
 
     @method()
-    def generate(self, system_prompt, user_input):
+    def generate(self, prompt):
         import time
 
         start = time.monotonic_ns()
 
-        messages = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_input}
-        ]
-        text = self.tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True
-        )
-
-        model_inputs = self.tokenizer([text], return_tensors="pt").to("cuda")
-
-        generated_ids = self.model.generate(
-            model_inputs.input_ids,
-            max_new_tokens=512
-        )
-        generated_ids = [
-            output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
-        ]
-
-        response = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+        response, _ = self.model.chat(self.tokenizer, prompt, history=[])
    
         duration_s = (time.monotonic_ns() - start) / 1e9
 
