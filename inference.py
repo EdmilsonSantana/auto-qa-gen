@@ -1,6 +1,5 @@
 import os
-from modal import Image, Secret, Stub, enter, exit, gpu, method
-import json
+from modal import Image, Secret, Stub, enter, gpu, method
 
 MODEL_DIR = "/model"
 BASE_MODEL = "internlm/internlm2-chat-7b"
@@ -31,9 +30,6 @@ image = (
         "accelerate",
         "einops"
     )
-    # Use the barebones hf-transfer package for maximum download speeds. Varies from 100MB/s to 1.5 GB/s,
-    # so download times can vary from under a minute to tens of minutes.
-    # If your download slows down or times out, try interrupting and restarting.
     .env({"HF_HUB_ENABLE_HF_TRANSFER": "1"})
     .run_function(
         download_model_to_folder,
@@ -51,13 +47,6 @@ class Model:
     def load(self):
         from transformers import AutoModelForCausalLM, AutoTokenizer
         import torch
-
-        if GPU_CONFIG.count > 1:
-            # Patch issue from https://github.com/vllm-project/vllm/issues/1116
-            import ray
-
-            ray.shutdown()
-            ray.init(num_gpus=GPU_CONFIG.count)
     
         self.model = AutoModelForCausalLM.from_pretrained(
             MODEL_DIR,
@@ -80,10 +69,3 @@ class Model:
         print(f"Duration: {duration_s}")
 
         return response
-
-    @exit()
-    def stop_engine(self):
-        if GPU_CONFIG.count > 1:
-            import ray
-
-            ray.shutdown()

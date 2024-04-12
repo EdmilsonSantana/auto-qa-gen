@@ -8,3 +8,4 @@ nltk_data/*
 venv/*
 results/*
 .viminfo
+.deepeval-cache.json
