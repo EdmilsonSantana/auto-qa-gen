@@ -4,6 +4,7 @@ from modal import Image, Secret, Stub, enter, gpu, method
 MODEL_DIR = "/model"
 BASE_MODEL = "internlm/internlm2-chat-7b"
 
+
 def download_model_to_folder():
     from huggingface_hub import snapshot_download
     from transformers.utils import move_cache
@@ -17,6 +18,7 @@ def download_model_to_folder():
         ignore_patterns=["*.pt", "*.gguf"],
     )
     move_cache()
+
 
 image = (
     Image.from_registry(
@@ -41,29 +43,52 @@ image = (
 stub = Stub("llm-inference", image=image)
 GPU_CONFIG = gpu.A100(count=1)
 
+
 @stub.cls(gpu=GPU_CONFIG, secrets=[Secret.from_name("huggingface-secret")])
 class Model:
     @enter()
     def load(self):
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-        import torch
-    
-        self.model = AutoModelForCausalLM.from_pretrained(
+        import vllm
+
+        self.llm = vllm.LLM(
             MODEL_DIR,
-            torch_dtype=torch.float16,
+            enforce_eager=True,  # skip graph capturing for faster cold starts
+            tensor_parallel_size=GPU_CONFIG.count,
             trust_remote_code=True
-        ).cuda()
-        self.model = self.model.eval()
-        self.tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR, trust_remote_code=True)
+        )
+
+        self.template = """<s><|im_start|>user\n{query}<|im_end|>\n<|im_start|>assistant\n"""
 
     @method()
-    def generate(self, prompt):
+    def generate(self, prompts_list):
         import time
+        import vllm
+
+        end_token = '<|im_end|>'
+        tokenizer = self.llm.llm_engine.tokenizer.tokenizer
+        sampling_params = vllm.SamplingParams(
+            temperature=0.7,
+            top_p=0.9,
+            max_tokens=2048,
+            skip_special_tokens=False,
+            stop_token_ids=[tokenizer.eos_token_id,
+                            tokenizer.convert_tokens_to_ids([end_token])[0]]
+        )
 
         start = time.monotonic_ns()
 
-        response, _ = self.model.chat(self.tokenizer, prompt, history=[])
-   
+        tokezined_prompts = []
+        for prompt in prompts_list:
+            tokezined_prompts.append(self.template.format(query=prompt))
+
+        result = self.llm.generate(tokezined_prompts, sampling_params)
+
+        response = []
+        for output in result:
+            decoded_output = tokenizer.decode(output.outputs[0].token_ids, skip_special_tokens=True)
+            decoded_output = decoded_output.split("<|im_end|>")[0]
+            response.append(decoded_output)
+
         duration_s = (time.monotonic_ns() - start) / 1e9
 
         print(f"Duration: {duration_s}")

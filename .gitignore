@@ -9,3 +9,6 @@ venv/*
 results/*
 .viminfo
 .deepeval-cache.json
+.temp-deepeval-cache.json
+temp_test_run_data.json
+raw_data/.~lock*
