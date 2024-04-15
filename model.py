@@ -56,11 +56,11 @@ class Model:
             tensor_parallel_size=GPU_CONFIG.count,
             trust_remote_code=True
         )
-
-        self.template = """<s><|im_start|>user\n{query}<|im_end|>\n<|im_start|>assistant\n"""
+        self.template = """<s><|im_start|>system\n{system_prompt}<|im_end|>\n"""
+        self.template += """<|im_start|>user\n{query}<|im_end|>\n<|im_start|>assistant\n"""
 
     @method()
-    def generate(self, prompts_list):
+    def generate(self, system_prompt, prompts_list):
         import time
         import vllm
 
@@ -79,13 +79,15 @@ class Model:
 
         tokezined_prompts = []
         for prompt in prompts_list:
-            tokezined_prompts.append(self.template.format(query=prompt))
+            tokezined_prompts.append(
+                self.template.format(system_prompt=system_prompt, query=prompt))
 
         result = self.llm.generate(tokezined_prompts, sampling_params)
 
         response = []
         for output in result:
-            decoded_output = tokenizer.decode(output.outputs[0].token_ids, skip_special_tokens=True)
+            decoded_output = tokenizer.decode(
+                output.outputs[0].token_ids, skip_special_tokens=True)
             decoded_output = decoded_output.split("<|im_end|>")[0]
             response.append(decoded_output)
 
