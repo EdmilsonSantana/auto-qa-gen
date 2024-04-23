@@ -1,14 +1,4 @@
 __pycache__/
-.lightning_studio/
 .vscode/
-txtinstruct/
-bonito/
-nltk_data/*
 .env
 venv/*
-results/*
-.viminfo
-.deepeval-cache.json
-.temp-deepeval-cache.json
-temp_test_run_data.json
-raw_data/.~lock*
