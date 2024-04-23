@@ -1,5 +1,6 @@
 import os
-from modal import Image, Secret, Stub, enter, gpu, method
+from modal import Image, Secret, Stub, enter, gpu, method, Function
+from .model import IModel
 
 MODEL_DIR = "/model"
 BASE_MODEL = "internlm/internlm2-chat-7b"
@@ -45,7 +46,7 @@ GPU_CONFIG = gpu.A100(count=1)
 
 
 @stub.cls(gpu=GPU_CONFIG, secrets=[Secret.from_name("huggingface-secret")])
-class Model:
+class ModalModel:
     @enter()
     def load(self):
         import vllm
@@ -60,7 +61,7 @@ class Model:
         self.template += """<|im_start|>user\n{query}<|im_end|>\n<|im_start|>assistant\n"""
 
     @method()
-    def generate(self, system_prompt, prompts_list):
+    def generate(self, system_prompt: str, user_prompts: list[str]) -> list[str]:
         import time
         import vllm
 
@@ -78,7 +79,7 @@ class Model:
         start = time.monotonic_ns()
 
         tokezined_prompts = []
-        for prompt in prompts_list:
+        for prompt in user_prompts:
             tokezined_prompts.append(
                 self.template.format(system_prompt=system_prompt, query=prompt))
 
@@ -96,3 +97,12 @@ class Model:
         print(f"Duration: {duration_s}")
 
         return response
+
+
+class RemoteModalModel(IModel):
+    def lodal_model():
+        os.system('modal deploy modal.py')
+
+    def generate(self, system_prompt: str, user_prompts: list[str]) -> list[str]:
+        generate_function = Function.lookup(self.model_name, 'Model.generate')
+        return generate_function.remote(system_prompt, user_prompts)
