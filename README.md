@@ -25,7 +25,7 @@ O processo de extração das questões consiste de múltiplas etapas, onde em ca
 O processo se inicia com a extração de tópicos a partir do conteúdo dos documentos, com o objetivo de direcionar a extração de questões para temas específicos. Os tópicos extraidos são validados e os que tem fraca relação com o documento são descartados. Para cada tópico obtido, são extraídas questões e respostas referentes ao tópico e ao documento o qual ele pertence. Por fim, as questões que são pouco relacionadas ao documento são descartadas, assim como aquelas que possuem respostas erradas.
 Os prompts utilizados estão disponíveis em `src\prompts`.
 
-![plot](resources\images\qa_extraction_process.jpg)
+![plot](resources/images/qa_extraction_process.jpg)
 
 ### Executando processo
 
@@ -40,9 +40,9 @@ Por fim execute:
 python src/index.py
 ```
 
-O arquivo `vehicle_repair_and_maintenance_qa.json` é o arquivo gerado no final do processo e que foi utilizado como dataset para fine-tuning do modelo. 
+O arquivo `vehicle_repair_and_maintenance_qa.json` é gerado no final do processo e utilizado como dataset para fine-tuning do modelo. 
 
 
-## Fine Tuning do modelo PPT5
+## Fine-Tuning do modelo PPT5
 
-As questões e respostas geradas foram utilizadas para fine tuning do modelo PPT5, que é um 
+O fine-tuning foi realizado no modelo [PTT5](https://huggingface.co/unicamp-dl/ptt5-base-portuguese-vocab), modelo  pré-treinado do Google T5 com o vocabulário da língua portuguesa. O treinamento e avaliação do modelo estão acessíveis neste [notebook](notebooks/PTT5_Fine_Tuning.ipynb) e o modelo encontra-se disponível no [Hugging Face](https://huggingface.co/emgs/ptt5-qa).
