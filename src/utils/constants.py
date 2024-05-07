@@ -1,0 +1,19 @@
+
+SOURCE_DIR = './data/source'
+
+OUTPUT_DIR = './data/output'
+
+SECTIONS_TO_IGNORE = [
+    'TITLE',
+    'CICLO OTTO',
+    'Conteúdos',
+    'INTRODUÇÃO',
+    'BIBLIOGRAFIA',
+    'MECÂNICA DE VEÍCULOS LEVES',
+    'SUMÁRIO',
+    'INTRODUÇÃO',
+    'METROLOGIA PARA MECÂNICA AUTOMOTIVA',
+    'APRESENTAÇÃO',
+    'REFERÊNCIAS',
+    'REFERÊNCIAS BIBLIOGRÁFICAS'
+]
