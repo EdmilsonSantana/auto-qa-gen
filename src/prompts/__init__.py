@@ -56,40 +56,44 @@ class PromptHandler(ABC):
 
     def __init__(self, model: IModel) -> None:
         self._model = model
+        self.max_retries = 10
 
     def set_next(self, handler: Self) -> Self:
         self._next_handler = handler
         return handler
 
     def handle(self, requests: list[PromptRequest], batch_size: int = 100) -> list[PromptRequest]:
-        prompt_template = self.get_prompt_template()
         self._logger.info(f"Starting '{self.__get_name()}' prompt template")
         successful_requests = []
-        error_requests = []
         requests_count = len(requests)
         processed_count = 0
         for batch_requests in chunker(requests, batch_size):
             processed_count += len(batch_requests)
             self._logger.info(
                 f"Processing {processed_count} / {requests_count}")
-            user_prompts = [prompt_template.format(request.data)
-                            for request in batch_requests]
-            system_prompt = prompt_template.system_prompt
-            response = self._model.generate(system_prompt, user_prompts)
-            for response_data, request in zip(response, batch_requests):
-                try:
-                    obj = self.to_object(load_json(response_data), request)
-                    if len(obj) > 0:
-                        successful_requests.extend(obj)
-                except Exception as error:
-                    error_requests.append(FailedPromptRequest(
-                        request, response_data, error))
+
+            for i in range(1, self.max_retries + 1):
+                batch_successful_requests, batch_error_requests = self.generate(
+                    requests=batch_requests
+                )
+
+                successful_requests.extend(batch_successful_requests)
+
+                if len(batch_error_requests) == 0:
+                    break
+
+                if (i < self.max_retries):
+                    batch_requests = [error_request.request
+                                      for error_request in batch_error_requests]
+                    self._logger.info(
+                        f"Retrying ({i}/{self.max_retries}) {len(batch_requests)} request(s)")
+                else:
+                    self._logger.info(
+                        f"Found {len(batch_error_requests)} error(s)")
+                    self.save_checkpoint(
+                        batch_error_requests, suffix='__error')
 
         self.save_checkpoint(successful_requests)
-
-        self._logger.error(f"Found {len(error_requests)} errors")
-        if len(error_requests) > 0:
-            self.save_checkpoint(error_requests, suffix='__error')
 
         self._logger.info(f"Finished '{self.__get_name()}' prompt template")
 
@@ -98,6 +102,24 @@ class PromptHandler(ABC):
             return self._next_handler.handle(successful_requests)
 
         return successful_requests
+
+    def generate(self, requests: list[PromptRequest]) -> tuple[list[PromptRequest], list[FailedPromptRequest]]:
+        prompt_template = self.get_prompt_template()
+        user_prompts = [prompt_template.format(request.data)
+                        for request in requests]
+        response = self._model.generate(
+            prompt_template.system_prompt, user_prompts)
+        error_requests = []
+        successful_requests = []
+        for response_data, request in zip(response, requests):
+            try:
+                obj = self.to_object(load_json(response_data), request)
+                if len(obj) > 0:
+                    successful_requests.extend(obj)
+            except Exception as error:
+                error_requests.append(FailedPromptRequest(
+                    request, response_data, error))
+        return successful_requests, error_requests
 
     def __get_name(self) -> str:
         return self.get_prompt_template().name

@@ -7,7 +7,7 @@ from prompts import PromptRequest
 from utils import config_log, save_json
 from utils.constants import SOURCE_DIR, OUTPUT_DIR
 
-config_log()
+logger = config_log()
 
 collection = DocumentCollection(SOURCE_DIR, SECTIONS_TO_IGNORE)
 
@@ -22,16 +22,18 @@ requests = [
         data=dict(document=document['content'])
     ) for document in collection.to_dict()]
 
+logger.info(f"Processing {len(requests)} requests")
+
 subject = 'vehicle repair and maintenance'
 
 prompt = TopicsExtractionPrompt(model, subject)
 prompt.set_next(TopicsValidationPrompt(model)) \
     .set_next(QuestionAnswerExtractionPrompt(model, subject)) \
     .set_next(QuestionAnswerVariationsPrompt(model)) \
-    .set_next(QuestionsValidationPrompt(model, 0.7)) \
-    .set_next(AnswerValidationPrompt(model, 0.7))
+    .set_next(QuestionsValidationPrompt(model)) \
+    .set_next(AnswerValidationPrompt(model))
 
-qa_dataset = prompt.handle(requests, batch_size=50)
+qa_dataset = prompt.handle(requests, batch_size=100)
 
 filename = 'vehicle_repair_and_maintenance_qa.json'
 save_json(f'{OUTPUT_DIR}/{filename}', qa_dataset, append=True)

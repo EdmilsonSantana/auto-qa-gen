@@ -20,7 +20,6 @@ class TopicsExtractionPrompt(PromptHandler):
             - You should not extract topics not related to {self.subject}.
             - You should not extract short topics.
             - The output should be a JSON list of strings in the following format: ["topic", "topic", "topic"].
-            - If there is not enough content to generate topics your output should be a empty list: [].
 
             examples:
 

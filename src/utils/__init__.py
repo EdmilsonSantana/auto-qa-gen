@@ -27,7 +27,7 @@ def chunker(seq: list, size: int):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
 
-def config_log():
+def config_log() -> logging.Logger:
     root = logging.getLogger()
     root.setLevel(logging.INFO)
 
@@ -39,3 +39,5 @@ def config_log():
     handler.setFormatter(formatter)
 
     root.addHandler(handler)
+
+    return root
