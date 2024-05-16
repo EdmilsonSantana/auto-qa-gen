@@ -117,7 +117,7 @@ class QuestionsValidationPrompt(PromptValidationHandler):
         return PromptTemplate(
             name="questions_validation",
             system_prompt="""
-            Given a document and a question, classify the relevance of the question in relation to the document with a score between 0 and 1.0 and a reason for the score, considering 1.0 as a very related question and 0 as an unrelated question. Your output should be a JSON for an object representing the score and the reason. It should have the fields "score" and "reason" where "score" is a float and "reason" is a string.
+            Given a document and a question, classify the relevance of the question in relation to the document with a score between 0 and 1.0 and a reason for the score, considering 1.0 as a very relevant question and 0 as an irrelevant question. Your output should be a JSON for an object representing the score and the reason. It should have the fields "score" and "reason" where "score" is a float and "reason" is a string.
 
             examples:
 
