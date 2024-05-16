@@ -24,11 +24,9 @@ requests = [
 
 logger.info(f"Processing {len(requests)} requests")
 
-subject = 'vehicle repair and maintenance'
-
-prompt = TopicsExtractionPrompt(model, subject)
+prompt = TopicsExtractionPrompt(model)
 prompt.set_next(TopicsValidationPrompt(model)) \
-    .set_next(QuestionAnswerExtractionPrompt(model, subject)) \
+    .set_next(QuestionAnswerExtractionPrompt(model)) \
     .set_next(QuestionAnswerVariationsPrompt(model)) \
     .set_next(QuestionsValidationPrompt(model)) \
     .set_next(AnswerValidationPrompt(model))

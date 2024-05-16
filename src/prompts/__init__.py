@@ -141,7 +141,7 @@ class PromptHandler(ABC):
 
 
 class PromptValidationHandler(PromptHandler):
-    def __init__(self, model: IModel, score_threshold: float = 0.5) -> None:
+    def __init__(self, model: IModel, score_threshold: float = 0.1) -> None:
         super().__init__(model)
         self._score_threshold = score_threshold
 
