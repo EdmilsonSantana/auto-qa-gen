@@ -2,7 +2,7 @@ from documents import DocumentCollection
 from utils.constants import SECTIONS_TO_IGNORE
 from models.factory import ModelFactory
 from prompts.topics import TopicsExtractionPrompt, TopicsValidationPrompt
-from prompts.qa import QuestionAnswerExtractionPrompt, QuestionsValidationPrompt, AnswerValidationPrompt, QuestionAnswerVariationsPrompt
+from prompts.qa import QuestionAnswerExtractionPrompt, QuestionsValidationPrompt, AnswerValidationPrompt
 from prompts import PromptRequest
 from utils import config_log, save_json
 from utils.constants import SOURCE_DIR, OUTPUT_DIR
@@ -27,7 +27,6 @@ logger.info(f"Processing {len(requests)} requests")
 prompt = TopicsExtractionPrompt(model)
 prompt.set_next(TopicsValidationPrompt(model)) \
     .set_next(QuestionAnswerExtractionPrompt(model)) \
-    .set_next(QuestionAnswerVariationsPrompt(model)) \
     .set_next(QuestionsValidationPrompt(model)) \
     .set_next(AnswerValidationPrompt(model))
 
