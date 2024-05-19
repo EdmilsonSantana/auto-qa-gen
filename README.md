@@ -25,8 +25,6 @@ O processo de extração das questões consiste de múltiplas etapas, onde em ca
 O processo se inicia com a extração de tópicos a partir do conteúdo dos documentos, com o objetivo de direcionar a extração de questões para temas específicos. Os tópicos extraidos são validados e os que tem fraca relação com o documento são descartados. Para cada tópico obtido, são extraídas questões e respostas referentes ao tópico e ao documento o qual ele pertence. Por fim, as questões que são pouco relacionadas ao documento são descartadas, assim como aquelas que possuem respostas erradas.
 Os prompts utilizados estão disponíveis em `src\prompts`.
 
-![plot](resources/images/qa_extraction_process.jpg)
-
 ### Executando processo
 
 Pré-requisitos
