@@ -19,7 +19,8 @@ SECTIONS_TO_IGNORE = [
     'METROLOGIA PARA MECÂNICA AUTOMOTIVA',
     'APRESENTAÇÃO',
     'REFERÊNCIAS',
-    'REFERÊNCIAS BIBLIOGRÁFICAS'
+    'REFERÊNCIAS BIBLIOGRÁFICAS',
+    'Exercícios'
 ]
 
 class Document():
@@ -88,8 +89,11 @@ class Document():
                 section_content = self.content.setdefault(current_heading, [])
 
                 if text != current_heading:
-                    section_content.append(text)
+                    section_content.append(self.__parse_section_content(text))
         self.__remove_invalid_sections()
+
+    def __parse_section_content(self, text: str) -> str:
+        return text.replace("\"", "\\\"")
 
     def __remove_invalid_sections(self):
         if (isinstance(self.sections_to_ignore, list)):
@@ -135,7 +139,7 @@ class DocumentCollection():
     def to_dict(self) -> list[dict]:
         return list(chain(*(document.to_dict() for document in self.documents)))
 
-    def save(self, dest_dir: str):
+    def save(self, dest_dir: str) -> None:
         if not os.path.exists(dest_dir):
             os.makedirs(dest_dir)
 
