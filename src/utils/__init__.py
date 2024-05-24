@@ -9,7 +9,7 @@ def load_json(s: str) -> Any:
     return json.loads(s.replace('\n', ' '), strict=False)
 
 
-def save_json(file: str, data: list[object], append=False, jsonl=False):
+def save_json(file: str, data: list[object], append=False):
     if (append and os.path.isfile(file)):
         data.extend(read_json(file))
 

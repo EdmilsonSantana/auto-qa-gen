@@ -1,0 +1,125 @@
+✓ Created objects.
+├── 🔨 Created mount PythonPackage:models.internlm
+├── 🔨 Created mount PythonPackage:documents
+├── 🔨 Created mount PythonPackage:models
+├── 🔨 Created mount PythonPackage:utils
+├── 🔨 Created download_model_to_folder.
+└── 🔨 Created ModalModel.generate.
+✓ App deployed! 🎉
+
+View Deployment: https://modal.com/apps/emgs-school/internlm
+2024-05-22 19:36:01,171 - root - INFO - Processing 132 requests
+2024-05-22 19:36:01,171 - prompts - INFO - Starting 'topics' prompt template
+2024-05-22 19:36:01,171 - prompts - INFO - Processing 100 / 132
+2024-05-22 19:37:11,292 - prompts - INFO - Processing 132 / 132
+2024-05-22 19:37:17,734 - prompts - INFO - Finished 'topics' prompt template
+2024-05-22 19:37:17,734 - prompts - INFO - Calling next handler
+2024-05-22 19:37:17,734 - prompts - INFO - Starting 'topics_validation' prompt template
+2024-05-22 19:37:17,734 - prompts - INFO - Processing 100 / 679
+2024-05-22 19:37:37,088 - prompts - INFO - Processing 200 / 679
+2024-05-22 19:37:57,644 - prompts - INFO - Processing 300 / 679
+2024-05-22 19:38:13,983 - prompts - INFO - Processing 400 / 679
+2024-05-22 19:38:32,117 - prompts - INFO - Processing 500 / 679
+2024-05-22 19:38:46,887 - prompts - INFO - Processing 600 / 679
+2024-05-22 19:39:00,531 - prompts - INFO - Processing 679 / 679
+2024-05-22 19:39:11,607 - prompts - INFO - Finished 'topics_validation' prompt template
+2024-05-22 19:39:11,625 - prompts - INFO - Calling next handler
+2024-05-22 19:39:11,626 - prompts - INFO - Starting 'questions' prompt template
+2024-05-22 19:39:11,626 - prompts - INFO - Processing 100 / 670
+2024-05-22 19:39:53,792 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:40:00,742 - prompts - INFO - Processing 200 / 670
+2024-05-22 19:40:54,308 - prompts - INFO - Retrying (1/10) 10 request(s)
+2024-05-22 19:41:07,974 - prompts - INFO - Retrying (2/10) 3 request(s)
+2024-05-22 19:41:21,116 - prompts - INFO - Processing 300 / 670
+2024-05-22 19:42:05,139 - prompts - INFO - Retrying (1/10) 4 request(s)
+2024-05-22 19:42:38,114 - prompts - INFO - Retrying (2/10) 2 request(s)
+2024-05-22 19:42:54,930 - prompts - INFO - Retrying (3/10) 2 request(s)
+2024-05-22 19:42:57,964 - prompts - INFO - Retrying (4/10) 2 request(s)
+2024-05-22 19:43:09,405 - prompts - INFO - Retrying (5/10) 1 request(s)
+2024-05-22 19:43:21,513 - prompts - INFO - Processing 400 / 670
+2024-05-22 19:43:59,521 - prompts - INFO - Retrying (1/10) 3 request(s)
+2024-05-22 19:44:12,012 - prompts - INFO - Processing 500 / 670
+2024-05-22 19:44:45,595 - prompts - INFO - Retrying (1/10) 3 request(s)
+2024-05-22 19:44:54,420 - prompts - INFO - Processing 600 / 670
+2024-05-22 19:45:24,011 - prompts - INFO - Processing 670 / 670
+2024-05-22 19:45:49,152 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:45:57,452 - prompts - INFO - Finished 'questions' prompt template
+2024-05-22 19:45:57,452 - prompts - INFO - Calling next handler
+2024-05-22 19:45:57,452 - prompts - INFO - Starting 'questions_validation' prompt template
+2024-05-22 19:45:57,452 - prompts - INFO - Processing 100 / 2862
+2024-05-22 19:46:21,382 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:46:24,677 - prompts - INFO - Processing 200 / 2862
+2024-05-22 19:46:47,226 - prompts - INFO - Processing 300 / 2862
+2024-05-22 19:47:06,809 - prompts - INFO - Processing 400 / 2862
+2024-05-22 19:47:27,159 - prompts - INFO - Processing 500 / 2862
+2024-05-22 19:47:46,950 - prompts - INFO - Processing 600 / 2862
+2024-05-22 19:48:04,091 - prompts - INFO - Processing 700 / 2862
+2024-05-22 19:48:28,049 - prompts - INFO - Processing 800 / 2862
+2024-05-22 19:48:47,357 - prompts - INFO - Processing 900 / 2862
+2024-05-22 19:49:20,348 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:49:23,840 - prompts - INFO - Processing 1000 / 2862
+2024-05-22 19:49:49,239 - prompts - INFO - Processing 1100 / 2862
+2024-05-22 19:50:12,372 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:50:15,206 - prompts - INFO - Processing 1200 / 2862
+2024-05-22 19:50:36,680 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:50:39,972 - prompts - INFO - Processing 1300 / 2862
+2024-05-22 19:51:03,871 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:51:07,571 - prompts - INFO - Processing 1400 / 2862
+2024-05-22 19:51:27,329 - prompts - INFO - Processing 1500 / 2862
+2024-05-22 19:51:47,537 - prompts - INFO - Processing 1600 / 2862
+2024-05-22 19:52:07,528 - prompts - INFO - Processing 1700 / 2862
+2024-05-22 19:52:33,878 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:52:37,595 - prompts - INFO - Processing 1800 / 2862
+2024-05-22 19:52:55,678 - prompts - INFO - Processing 1900 / 2862
+2024-05-22 19:53:18,152 - prompts - INFO - Processing 2000 / 2862
+2024-05-22 19:53:36,218 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:53:39,085 - prompts - INFO - Processing 2100 / 2862
+2024-05-22 19:53:54,860 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:53:58,343 - prompts - INFO - Processing 2200 / 2862
+2024-05-22 19:54:17,334 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:54:20,251 - prompts - INFO - Processing 2300 / 2862
+2024-05-22 19:54:35,550 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:54:39,101 - prompts - INFO - Processing 2400 / 2862
+2024-05-22 19:54:58,700 - prompts - INFO - Processing 2500 / 2862
+2024-05-22 19:55:17,816 - prompts - INFO - Processing 2600 / 2862
+2024-05-22 19:55:34,066 - prompts - INFO - Processing 2700 / 2862
+2024-05-22 19:55:49,183 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:55:52,891 - prompts - INFO - Processing 2800 / 2862
+2024-05-22 19:56:10,324 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:56:13,315 - prompts - INFO - Processing 2862 / 2862
+2024-05-22 19:56:28,406 - prompts - INFO - Finished 'questions_validation' prompt template
+2024-05-22 19:56:28,482 - prompts - INFO - Calling next handler
+2024-05-22 19:56:28,482 - prompts - INFO - Starting 'answers_validation' prompt template
+2024-05-22 19:56:28,482 - prompts - INFO - Processing 100 / 2787
+2024-05-22 19:56:55,273 - prompts - INFO - Processing 200 / 2787
+2024-05-22 19:57:22,956 - prompts - INFO - Processing 300 / 2787
+2024-05-22 19:57:47,005 - prompts - INFO - Processing 400 / 2787
+2024-05-22 19:58:15,926 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 19:58:19,725 - prompts - INFO - Processing 500 / 2787
+2024-05-22 19:58:43,231 - prompts - INFO - Processing 600 / 2787
+2024-05-22 19:59:06,152 - prompts - INFO - Processing 700 / 2787
+2024-05-22 19:59:33,465 - prompts - INFO - Processing 800 / 2787
+2024-05-22 19:59:57,835 - prompts - INFO - Processing 900 / 2787
+2024-05-22 20:00:33,128 - prompts - INFO - Processing 1000 / 2787
+2024-05-22 20:01:01,020 - prompts - INFO - Processing 1100 / 2787
+2024-05-22 20:01:26,896 - prompts - INFO - Processing 1200 / 2787
+2024-05-22 20:01:53,840 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 20:01:56,661 - prompts - INFO - Processing 1300 / 2787
+2024-05-22 20:02:21,326 - prompts - INFO - Processing 1400 / 2787
+2024-05-22 20:02:50,941 - prompts - INFO - Processing 1500 / 2787
+2024-05-22 20:03:14,387 - prompts - INFO - Processing 1600 / 2787
+2024-05-22 20:03:46,352 - prompts - INFO - Processing 1700 / 2787
+2024-05-22 20:04:10,970 - prompts - INFO - Processing 1800 / 2787
+2024-05-22 20:04:33,698 - prompts - INFO - Processing 1900 / 2787
+2024-05-22 20:04:59,248 - prompts - INFO - Processing 2000 / 2787
+2024-05-22 20:05:19,318 - prompts - INFO - Retrying (1/10) 2 request(s)
+2024-05-22 20:05:21,711 - prompts - INFO - Processing 2100 / 2787
+2024-05-22 20:05:41,666 - prompts - INFO - Retrying (1/10) 1 request(s)
+2024-05-22 20:05:45,257 - prompts - INFO - Processing 2200 / 2787
+2024-05-22 20:06:06,025 - prompts - INFO - Processing 2300 / 2787
+2024-05-22 20:06:26,102 - prompts - INFO - Processing 2400 / 2787
+2024-05-22 20:06:50,084 - prompts - INFO - Processing 2500 / 2787
+2024-05-22 20:07:10,712 - prompts - INFO - Processing 2600 / 2787
+2024-05-22 20:07:30,234 - prompts - INFO - Processing 2700 / 2787
+2024-05-22 20:07:50,658 - prompts - INFO - Processing 2787 / 2787
+2024-05-22 20:08:09,898 - prompts - INFO - Finished 'answers_validation' prompt template

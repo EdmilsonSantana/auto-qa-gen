@@ -7,22 +7,6 @@ import json
 import uuid
 from itertools import chain
 
-SECTIONS_TO_IGNORE = [
-    'TITLE',
-    'CICLO OTTO',
-    'Conteúdos',
-    'INTRODUÇÃO',
-    'BIBLIOGRAFIA',
-    'MECÂNICA DE VEÍCULOS LEVES',
-    'SUMÁRIO',
-    'INTRODUÇÃO',
-    'METROLOGIA PARA MECÂNICA AUTOMOTIVA',
-    'APRESENTAÇÃO',
-    'REFERÊNCIAS',
-    'REFERÊNCIAS BIBLIOGRÁFICAS',
-    'Exercícios'
-]
-
 class Document():
     def __init__(self, file_path: str, sections_to_ignore: list[str] = []):
         self.document = Docx(file_path)
