@@ -1,4 +1,4 @@
-# TCC 2022-2
+# Automotive Q&A Generator
 
 Esse repositório contém os artefatos produzidos no trabalho de conclusão de curso "IA Generativa Aplicada a Capacitação do Setor Automotivo".
 
